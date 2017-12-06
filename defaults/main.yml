@@ -1,8 +1,9 @@
-avahi_user: avahi
-avahi_group: avahi
-avahi_log_dir: /var/log/avahi
-avahi_db_dir: "{{ __avahi_db_dir }}"
-avahi_service: avahi
+avahi_user: "{{ __avahi_user }}"
+avahi_group: "{{ __avahi_group }}"
+avahi_package: "{{ __avahi_package }}"
 avahi_conf_dir: "{{ __avahi_conf_dir }}"
-avahi_conf_file: "{{ __avahi_conf_dir }}/avahi.conf"
-avahi_flags: ""
+avahi_conf_file: "{{ avahi_conf_dir }}/avahi-daemon.conf"
+avahi_config: []
+
+avahi_daemon_service: "{{ __avahi_daemon_service }}"
+avahi_daemon_flags: "{{ __avahi_daemon_flags }}"
