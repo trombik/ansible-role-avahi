@@ -1,0 +1,6 @@
+# Managed by ansible
+
+{% for config in avahi_config %}
+[{{ config.section }}]
+{{ config.content }}
+{% endfor %}

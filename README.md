@@ -1,6 +1,6 @@
 # ansible-role-avahi
 
-A brief description of the role goes here.
+Configure avahi daemons
 
 # Requirements
 
@@ -8,17 +8,73 @@ None
 
 # Role Variables
 
-| variable | description | default |
+| Variable | Description | Default |
 |----------|-------------|---------|
+| `avahi_user` | User of `avahi-daemon(8)` | `{{ __avahi_user }}` |
+| `avahi_group` | Group of `avahi-daemon(8)` | `{{ __avahi_group }}` |
+| `avahi_package` | Package name of `avahi` | `{{ __avahi_package }}` |
+| `avahi_conf_dir` | Path to configuration directory | `{{ __avahi_conf_dir }}` |
+| `avahi_conf_file` | Path to `avahi-daemon.conf(5)` | `{{ avahi_conf_dir }}/avahi-daemon.conf` |
+| `avahi_config` | Content of `avahi-daemon.conf(5)`. See below. | `[]` |
+| `avahi_daemon_service` | Service name of `avahi-daemon` | `{{ __avahi_daemon_service }}` |
+| `avahi_daemon_flags` | Flags to `avahi-daemon(8)` | `{{ __avahi_daemon_flags }}` |
 
+## `avahi_config`
+
+This variable is a list of dict.
+
+| Key | Description | Mandatory? |
+|-----|-------------|------------|
+| `section` | Section name | yes |
+| `content` | Content of the section | yes |
+
+## FreeBSD
+
+| Variable | Default |
+|----------|---------|
+| `__avahi_user` | `avahi` |
+| `__avahi_group` | `avahi` |
+| `__avahi_package` | `net/avahi-app` |
+| `__avahi_conf_dir` | `/usr/local/etc/avahi` |
+| `__avahi_daemon_service` | `avahi-daemon` |
+| `__avahi_daemon_flags` | `-D` |
 
 # Dependencies
 
-None
+* `trombik.dbus`
 
 # Example Playbook
 
 ```yaml
+- hosts: localhost
+  roles:
+    - trombik.dbus
+    - ansible-role-avahi
+  vars:
+    avahi_config:
+      - section: server
+        content: |
+          host-name=foo
+          domain-name=example.org
+          browse-domains=example.org
+          use-ipv6=no
+          ratelimit-interval-usec=1000000
+          ratelimit-burst=1000
+      - section: wide-area
+        content: |
+          enable-wide-area=yes
+      - section: publish
+        content: ""
+      - section: reflector
+        content: ""
+      - section: rlimits
+        content: |
+          rlimit-core=0
+          rlimit-data=4194304
+          rlimit-fsize=0
+          rlimit-nofile=768
+          rlimit-stack=4194304
+          rlimit-nproc=3
 ```
 
 # License

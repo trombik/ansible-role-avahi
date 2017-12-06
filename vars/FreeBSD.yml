@@ -1,2 +1,6 @@
-__avahi_db_dir: /var/db/avahi
+__avahi_user: avahi
+__avahi_group: avahi
+__avahi_package: net/avahi-app
 __avahi_conf_dir: /usr/local/etc/avahi
+__avahi_daemon_service: avahi-daemon
+__avahi_daemon_flags: -D

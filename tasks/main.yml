@@ -5,33 +5,19 @@
 
 - include: "install-{{ ansible_os_family }}.yml"
 
-- name: Create log directory
+- name: Create avahi_conf_dir
   file:
-    path: "{{ avahi_log_dir }}"
-    mode: 0755
-    owner: "{{ avahi_user }}"
-    group: "{{ avahi_group }}"
+    path: "{{ avahi_conf_dir }}"
     state: directory
-  notify: Restart avahi
 
-- name: Create db directory
-  file:
-    path: "{{ avahi_db_dir }}"
-    mode: 0755
-    owner: "{{ avahi_user }}"
-    group: "{{ avahi_group }}"
-    state: directory
-  notify: Restart avahi
-
-- name: Create avahi.conf
+- name: Create avahi-daemon.conf
   template:
-    src: avahi.conf.j2
+    src: avahi-daemon.conf.j2
     dest: "{{ avahi_conf_file }}"
-    validate: echo %s
+    #validate: echo %s
   notify: Restart avahi
 
 - name: Start avahi
   service:
-    name: "{{ avahi_service }}"
-    enabled: true
+    name: "{{ avahi_daemon_service }}"
     state: started

@@ -2,5 +2,23 @@
 
 - name: Install avahi
   pkgng:
-    name: avahi
+    name: "{{ avahi_package }}"
     state: present
+
+- name: Patch avahi-daemon rc.subr script
+  # XXX the script does not support `status` action
+  patch:
+    dest: /usr/local/etc/rc.d/avahi-daemon
+    src: patch-FreeBSD-avahi-daemon
+    backup: yes
+
+- name: Create /etc/rc.conf.d/avahi
+  template:
+    src: FreeBSD.rcd.j2
+    dest: /etc/rc.conf.d/avahi
+    validate: sh -n %s
+
+- name: Enable avahi-daemon
+  service:
+    name: "{{ avahi_daemon_service }}"
+    enabled: yes

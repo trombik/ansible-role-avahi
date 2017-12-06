@@ -1,5 +1,29 @@
 - hosts: localhost
   roles:
+    - trombik.dbus
     - ansible-role-avahi
   vars:
-    avahi_config: ""
+    avahi_config:
+      - section: server
+        content: |
+          host-name=foo
+          domain-name=example.org
+          browse-domains=example.org
+          use-ipv6=no
+          ratelimit-interval-usec=1000000
+          ratelimit-burst=1000
+      - section: wide-area
+        content: |
+          enable-wide-area=yes
+      - section: publish
+        content: ""
+      - section: reflector
+        content: ""
+      - section: rlimits
+        content: |
+          rlimit-core=0
+          rlimit-data=4194304
+          rlimit-fsize=0
+          rlimit-nofile=768
+          rlimit-stack=4194304
+          rlimit-nproc=3

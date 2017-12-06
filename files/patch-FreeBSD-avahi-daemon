@@ -1,0 +1,13 @@
+--- avahi-daemon.orig	2017-12-06 15:29:18.789833000 +0000
++++ avahi-daemon	2017-12-06 15:37:07.274139000 +0000
+@@ -17,7 +17,9 @@
+ avahi_daemon_enable=${avahi_daemon_enable-${gnome_enable}}
+ 
+ name=avahi_daemon
++procname=avahi-daemon
+ rcvar=avahi_daemon_enable
++pidfile="/var/run/avahi-daemon/pid"
+ 
+ start_cmd=avahi_daemon_start
+ stop_cmd=avahi_daemon_stop
+
