@@ -1,0 +1,6 @@
+---
+
+- name: Restart avahi
+  service:
+    name: avahi
+    state: restarted

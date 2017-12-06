@@ -1,0 +1,8 @@
+avahi_user: avahi
+avahi_group: avahi
+avahi_log_dir: /var/log/avahi
+avahi_db_dir: "{{ __avahi_db_dir }}"
+avahi_service: avahi
+avahi_conf_dir: "{{ __avahi_conf_dir }}"
+avahi_conf_file: "{{ __avahi_conf_dir }}/avahi.conf"
+avahi_flags: ""

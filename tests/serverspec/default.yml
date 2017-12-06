@@ -1,0 +1,5 @@
+- hosts: localhost
+  roles:
+    - ansible-role-avahi
+  vars:
+    avahi_config: ""

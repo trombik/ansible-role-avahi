@@ -1,0 +1,6 @@
+---
+
+- name: Install avahi
+  pkgng:
+    name: avahi
+    state: present
