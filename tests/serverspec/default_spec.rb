@@ -4,9 +4,9 @@ require "serverspec"
 package = "avahi"
 service = "avahi"
 config  = "/etc/avahi/avahi-daemon.conf"
-user    = "avahi"
-group   = "avahi"
-ports   = []
+_user    = "avahi"
+_group   = "avahi"
+ports = []
 default_user = "root"
 default_group = "root"
 
