@@ -1,0 +1,33 @@
+---
+
+- name: Install avahi
+  openbsd_pkg:
+    name: "{{ avahi_package }}"
+    state: present
+  register: __register_avahi_openbsd_package
+
+- name: Restart dbus
+  # XXX this is not a proper way to restart dbus
+  # trombik.dbus should support dbus_systemd_config
+  service:
+    name: "{{ dbus_service }}"
+    state: restarted
+  when:
+    - __register_avahi_openbsd_package | changed
+
+- name: Enable multicast in rc.con.local(5)
+  lineinfile:
+    path: /etc/rc.conf.local
+    line: "multicast=YES"
+  register: __register_enable_multicast
+
+- name: Restart network
+  command: sh /etc/netstart
+  when:
+    - __register_enable_multicast | changed
+
+- name: Enable avahi-daemon
+  service:
+    arguments: "{{ avahi_daemon_flags }}"
+    name: "{{ avahi_daemon_service }}"
+    enabled: yes

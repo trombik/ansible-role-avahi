@@ -18,9 +18,9 @@ None
 | `avahi_config` | Content of `avahi-daemon.conf(5)`. See below. | `[]` |
 | `avahi_daemon_service` | Service name of `avahi-daemon` | `{{ __avahi_daemon_service }}` |
 | `avahi_daemon_flags` | Flags to `avahi-daemon(8)` | `{{ __avahi_daemon_flags }}` |
-| `avahi_mdns_packages` | list of packages to install for `mdns` | `{{ __avahi_mdns_package }}` |
-| `avahi_nss_switch_file` | | `{{ __avahi_nss_switch_file }}` |
-| `avahi_nss_switch_hosts` | the value for `hosts` in `nss_switch.conf(5)` | `files dns mdns`
+| `avahi_mdns_packages` | List of packages to install for `mdns`. Ignored if the platform does not support it | `{{ __avahi_mdns_package }}` |
+| `avahi_nss_switch_file` | Path to `nsswitch.conf(5)`. Ignored if the platform does not support it | `{{ __avahi_nss_switch_file }}` |
+| `avahi_nss_switch_hosts` | The value for `hosts` in `nss_switch.conf(5)`. Ignored if the platform does not support it | `files dns mdns` |
 
 ## `avahi_config`
 
@@ -44,6 +44,18 @@ This variable is a list of dict.
 | `__avahi_nss_switch_file` | `/etc/nsswitch.conf` |
 | `__avahi_mdns_package` | `["dns/nss_mdns"]` |
 
+## OpenBSD
+
+| Variable | Default |
+|----------|---------|
+| `__avahi_user` | `_avahi` |
+| `__avahi_group` | `_avahi` |
+| `__avahi_package` | `avahi--` |
+| `__avahi_conf_dir` | `/etc/avahi` |
+| `__avahi_daemon_service` | `avahi_daemon` |
+| `__avahi_daemon_flags` | `""` |
+| `__avahi_nss_switch_file` | `""` |
+
 # Dependencies
 
 * `trombik.dbus`
@@ -53,16 +65,15 @@ This variable is a list of dict.
 ```yaml
 - hosts: localhost
   roles:
-    - trombik.dbus
+    - role: trombik.dbus
     - ansible-role-avahi
   vars:
     avahi_config:
       - section: server
         content: |
-          host-name=foo
-          domain-name=example.org
-          browse-domains=example.org
+          use-ipv4=yes
           use-ipv6=no
+          allow-interfaces=em0
           ratelimit-interval-usec=1000000
           ratelimit-burst=1000
       - section: wide-area

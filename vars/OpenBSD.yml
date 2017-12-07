@@ -1,0 +1,7 @@
+__avahi_user: _avahi
+__avahi_group: _avahi
+__avahi_package: avahi--
+__avahi_conf_dir: /etc/avahi
+__avahi_daemon_service: avahi_daemon
+__avahi_daemon_flags:
+__avahi_nss_switch_file: ""
