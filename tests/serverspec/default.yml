@@ -1,15 +1,14 @@
 - hosts: localhost
   roles:
-    - trombik.dbus
+    - role: trombik.dbus
     - ansible-role-avahi
   vars:
     avahi_config:
       - section: server
         content: |
-          host-name=foo
-          domain-name=example.org
-          browse-domains=example.org
+          use-ipv4=yes
           use-ipv6=no
+          allow-interfaces=em0
           ratelimit-interval-usec=1000000
           ratelimit-burst=1000
       - section: wide-area

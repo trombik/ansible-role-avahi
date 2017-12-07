@@ -9,4 +9,29 @@
 
   pre_tasks:
   roles:
+    - trombik.dbus
     - ansible-role-avahi
+  vars:
+    openmdns_flags: em1
+    avahi_config:
+      - section: server
+        content: |
+          use-ipv4=yes
+          use-ipv6=no
+          allow-interfaces=em1
+          ratelimit-interval-usec=1000000
+          ratelimit-burst=1000
+      - section: wide-area
+        content: enable-wide-area=no
+      - section: publish
+        content: ""
+      - section: reflector
+        content: ""
+      - section: rlimits
+        content: |
+          rlimit-core=0
+          rlimit-data=4194304
+          rlimit-fsize=0
+          rlimit-nofile=768
+          rlimit-stack=4194304
+          rlimit-nproc=3

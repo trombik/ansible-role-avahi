@@ -47,39 +47,29 @@ Vagrant.configure("2") do |config|
     v.memory = 256
     v.cpus = 1
   end
-  config.vm.box = "trombik/ansible-freebsd-10.3-amd64"
 
-  config.vm.define "client1" do |c|
-    c.vm.network "private_network", ip: "192.168.21.100"
-    c.vm.hostname = "client1.virtualbox.reallyenglish.com"
-    c.vm.provision :ansible do |ansible|
-      ansible.limit = "192.168.21.100"
-      ansible.playbook = "site.yml"
-      ansible.extra_vars = {
-        ansible_python_interpreter: "/usr/local/bin/python",
-        http_proxy: http_proxy,
-        https_proxy: http_proxy,
-        no_proxy: "localhost,127.0.0.1,.example.com"
-      }
-      ansible.inventory_path = "inventories/staging"
-      ansible.verbose = "v"
-    end
-  end
-
-  config.vm.define "server1" do |c|
-    c.vm.network "private_network", ip: "192.168.21.200"
-    c.vm.hostname = "server1.virtualbox.reallyenglish.com"
-    c.vm.provision :ansible do |ansible|
-      ansible.limit = "192.168.21.200"
-      ansible.playbook = "site.yml"
-      ansible.extra_vars = {
-        ansible_python_interpreter: "/usr/local/bin/python",
-        http_proxy: http_proxy,
-        https_proxy: http_proxy,
-        no_proxy: "localhost,127.0.0.1,.example.com"
-      }
-      ansible.inventory_path = "inventories/staging"
-      ansible.verbose = "v"
+  vms = [
+    { name: "freebsd111", ip: "192.168.21.100", box: "trombik/ansible-freebsd-11.1-amd64" },
+    { name: "freebsd103", ip: "192.168.21.101", box: "trombik/ansible-freebsd-10.3-amd64" },
+    { name: "openbsd62",  ip: "192.168.21.102", box: "trombik/ansible-openbsd-6.2-amd64" }
+  ]
+  vms.each do |vm|
+    config.vm.define vm[:name] do |c|
+      c.vm.box = vm[:box]
+      c.vm.network "private_network", ip: vm[:ip]
+      c.vm.hostname = "#{vm[:name]}.i.trombik.org"
+      c.vm.provision :ansible do |ansible|
+        ansible.limit = vm[:ip]
+        ansible.playbook = "site.yml"
+        ansible.extra_vars = {
+          ansible_python_interpreter: "/usr/local/bin/python",
+          http_proxy: http_proxy,
+          https_proxy: http_proxy,
+          no_proxy: "localhost,127.0.0.1,.example.com,i.trombik.org"
+        }
+        ansible.inventory_path = "inventories/staging"
+        ansible.verbose = "v"
+      end
     end
   end
 end

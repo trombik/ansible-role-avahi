@@ -27,3 +27,5 @@
     path: "{{ avahi_nss_switch_file }}"
     regexp: '^hosts:'
     line: 'hosts: {{ avahi_nss_switch_hosts }}'
+  when:
+    - ansible_os_family == 'FreeBSD'

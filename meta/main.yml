@@ -10,10 +10,11 @@ galaxy_info:
     versions:
     - 10.3
 #   - 11.1
-#  - name: OpenBSD
-#    versions:
+  - name: OpenBSD
+    versions:
 #    - 6.0
-#    - 6.1
+    - 6.1
+#   - 6.2
 #  - name: Ubuntu
 #    versions:
 #    - trusty
