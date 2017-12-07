@@ -6,7 +6,7 @@ end
 sleep 10 if ENV["JENKINS_HOME"]
 
 context "after provisioning finished" do
-  targets = ["freebsd111", "freebsd103"]
+  targets = %w[freebsd111 freebsd103]
   targets.each do |target|
     describe server(target.to_sym) do
       targets.each do |t|
