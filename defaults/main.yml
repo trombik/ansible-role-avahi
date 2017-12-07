@@ -4,6 +4,8 @@ avahi_package: "{{ __avahi_package }}"
 avahi_conf_dir: "{{ __avahi_conf_dir }}"
 avahi_conf_file: "{{ avahi_conf_dir }}/avahi-daemon.conf"
 avahi_config: []
-
 avahi_daemon_service: "{{ __avahi_daemon_service }}"
 avahi_daemon_flags: "{{ __avahi_daemon_flags }}"
+avahi_mdns_packages: "{{ __avahi_mdns_package }}"
+avahi_nss_switch_file: "{{ __avahi_nss_switch_file }}"
+avahi_nss_switch_hosts: "files dns mdns"

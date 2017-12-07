@@ -5,6 +5,12 @@
     name: "{{ avahi_package }}"
     state: present
 
+- name: Install avahi_mdns_packages
+  pkgng:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ avahi_mdns_packages }}"
+
 - name: Patch avahi-daemon rc.subr script
   # XXX the script does not support `status` action
   patch:

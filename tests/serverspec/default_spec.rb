@@ -9,6 +9,8 @@ _group   = "avahi"
 ports = []
 default_user = "root"
 default_group = "root"
+nss_swicth_conf = "/etc/nsswitch.conf"
+mdns_package = "nss_mdns"
 
 case os[:family]
 when "freebsd"
@@ -19,6 +21,18 @@ end
 
 describe package(package) do
   it { should be_installed }
+end
+
+describe package(mdns_package) do
+  it { should be_installed }
+end
+
+describe file(nss_swicth_conf) do
+  it { should exist }
+  it { should be_file }
+  it { should be_owned_by default_user }
+  it { should be_grouped_into default_group }
+  its(:content) { should match(/^hosts: files dns mdns$/) }
 end
 
 describe file(config) do

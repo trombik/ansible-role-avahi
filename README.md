@@ -18,6 +18,9 @@ None
 | `avahi_config` | Content of `avahi-daemon.conf(5)`. See below. | `[]` |
 | `avahi_daemon_service` | Service name of `avahi-daemon` | `{{ __avahi_daemon_service }}` |
 | `avahi_daemon_flags` | Flags to `avahi-daemon(8)` | `{{ __avahi_daemon_flags }}` |
+| `avahi_mdns_packages` | list of packages to install for `mdns` | `{{ __avahi_mdns_package }}` |
+| `avahi_nss_switch_file` | | `{{ __avahi_nss_switch_file }}` |
+| `avahi_nss_switch_hosts` | the value for `hosts` in `nss_switch.conf(5)` | `files dns mdns`
 
 ## `avahi_config`
 
@@ -38,6 +41,8 @@ This variable is a list of dict.
 | `__avahi_conf_dir` | `/usr/local/etc/avahi` |
 | `__avahi_daemon_service` | `avahi-daemon` |
 | `__avahi_daemon_flags` | `-D` |
+| `__avahi_nss_switch_file` | `/etc/nsswitch.conf` |
+| `__avahi_mdns_package` | `["dns/nss_mdns"]` |
 
 # Dependencies
 

@@ -4,3 +4,6 @@ __avahi_package: net/avahi-app
 __avahi_conf_dir: /usr/local/etc/avahi
 __avahi_daemon_service: avahi-daemon
 __avahi_daemon_flags: -D
+__avahi_nss_switch_file: /etc/nsswitch.conf
+__avahi_mdns_package:
+  - dns/nss_mdns
